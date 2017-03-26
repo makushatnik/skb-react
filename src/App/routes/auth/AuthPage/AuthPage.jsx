@@ -18,6 +18,8 @@ import {
 } from 'react-bootstrap';
 import Email from 'react-icons/lib/fa/envelope';
 import Lock from 'react-icons/lib/fa/lock';
+import SignIn from 'react-icons/lib/fa/sign-in';
+import Send from 'react-icons/lib/fa/paper-plane';
 
 import VKontakte from 'react-icons/lib/fa/vk';
 import Odnoklassniki from 'react-icons/lib/fa/odnoklassniki';
@@ -40,6 +42,9 @@ import Form from 'lsk-general/General/Form';
 @inject('app')
 @importcss(require('./AuthPage.css'))
 export default class AuthPage extends Component {
+  static childContextTypes = {
+    reactIconBase: React.PropTypes.object
+  }
 
   @autobind
   async handleSubmit(data) {
@@ -63,6 +68,18 @@ export default class AuthPage extends Component {
     // }
     // console.log('handleSubmit', data);
     // global.toast('asdasda');
+  }
+
+  getChildContext() {
+    return {
+      reactIconBase: {
+        color: 'red',
+        size: 24,
+        style: {
+          marginRight: '5px'
+        }
+      }
+    }
   }
 
   render() {
@@ -169,7 +186,7 @@ export default class AuthPage extends Component {
                         {/* <If condition={!status}> */}
                         <span style={{ visibility: !status ? 'visible' : 'hidden' }}>
                           <If condition={type === 'login'}>
-                            Войти
+                            <SignIn /> Войти
                           </If>
                           <If condition={type === 'signup'}>
                             Создать аккаунт
@@ -220,7 +237,7 @@ export default class AuthPage extends Component {
                       href="/auth"
                       block
                     >
-                      Войти
+                      <SignIn />Войти
                     </Button>
                   </CardBlock>
                 </Card>
@@ -234,7 +251,7 @@ export default class AuthPage extends Component {
                       href="/auth/signup"
                       block
                     >
-                      Создать аккаунт
+                      <Send /> Создать аккаунт
                     </Button>
                   </CardBlock>
                 </Card>

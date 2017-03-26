@@ -22,10 +22,6 @@ export default {
       ...require('./cabinet').default,
     },
     {
-      path: '/task1',
-      ...require('./task1').default,
-    },
-    {
       path: '*',
       action() {
         throw 'Not found';

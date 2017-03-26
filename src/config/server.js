@@ -9,7 +9,8 @@ export default config.server(baseConfig, {
 
   protocol: 'https',
   db: {
-    uri: process.env.DB || 'mongodb://lsk-example1:lsk-example1-pass@publicdb.mgbeta.ru:27000/lsk-example1',
+    //uri: process.env.DB || 'mongodb://lsk-example1:lsk-example1-pass@publicdb.mgbeta.ru:27000/lsk-example1',
+    uri: process.env.DB || 'mongodb://localhost:27017/react_blog',
   },
   jwt: {
     secret: 'REPLACE_ME_PLEASE',
