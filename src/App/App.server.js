@@ -1,10 +1,34 @@
 import ReactApp from 'lego-starter-kit/ReactApp'; // eslint-disable-line
 import _ from 'lodash';
+import fs from 'fs';
 import getApi from './api';
 import getDocs from './api/api.docs';
 import routes from './routes';
 import assets from './assets'; // eslint-disable-line
 
+function parseLineFile(file) {
+  var obj = {}
+  if (file) {
+    const content = fs.readFileSync(file).toString()
+    var arr = content.split('\r\n')
+    console.log(arr)
+    for (var x in arr) {
+      var cur = arr[x].split('=')
+      if (cur.length == 2) {
+        var key = cur[0]
+        if (key.indexOf('.') !== -1) {
+          _.set(obj, key, cur[1])
+        } else {
+          obj[cur[0]] = cur[1]
+        }
+      } else {
+        console.log('Config file is incorrect!');
+        break;
+      }
+    }
+  }
+  return obj
+}
 
 function castTask(task) {
   if (!task.answers) return task;
@@ -102,6 +126,18 @@ export default class App extends ReactApp {
       game.boughtAt = new Date();
       await game.save();
       return res.redirect(`/game/${game.id}`);
+    });
+    this.app.get('/line-file', async (req, res) => {
+      var obj = {};
+      var items = fs.readdirSync('./')
+      items = items.filter(x => {
+        return x.indexOf('.env') !== -1
+      })
+      console.log(items)
+      items.forEach(x => {
+        _.assignIn(obj, parseLineFile(x))
+      })
+      return res.json(obj)
     });
   }
 
